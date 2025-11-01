@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ material.name }}</h2>
+<p>Unit price: {{ material.unit_price }}</p>
+<p>Quantity: {{ material.quantity }} {{ material.unit }}</p>
+
+<a href="{% url 'inventory:get_materials' %}">Back to all materials</a>
+{% endblock %}

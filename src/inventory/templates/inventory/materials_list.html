@@ -1,0 +1,7 @@
+<ul>
+    {% for m in materials %}
+    <li>
+        <a href="{% url 'inventory:material_details' m.id %}">{{m.name}}</a>
+    </li>
+    {% endfor %}
+</ul>

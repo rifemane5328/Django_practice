@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>All materials:</h2>
+{% load inventory_tags %}
+
+{% get_materials %}
+
+{% endblock %}
