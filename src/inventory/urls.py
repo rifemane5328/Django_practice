@@ -7,6 +7,6 @@ app_name = 'inventory'
 
 urlpatterns = [
     path('add-material/', add_material_view, name='add_material'),
-    path('get-all-materials', get_all_materials, name='get_materials'),
+    path('get-all-materials/', get_all_materials, name='get_materials'),
     path('get-material/<int:material_id>/', get_material_details, name='material_details'),
 ]
