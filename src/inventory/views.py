@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .forms import MaterialForm
 from .models import Material
 
+@login_required
 def add_material_view(request):
     if request.method == "POST":
         form = MaterialForm(request.POST)
@@ -21,6 +23,6 @@ def get_all_materials(request):
     return render(request, "inventory/get_materials.html", {"materials": materials})
 
 
-def get_material_details(request, material_id):
+def get_material_by_id(request, material_id):
     material = get_object_or_404(Material, id=material_id)
-    return render(request, "inventory/material_details.html", {"material": material})
+    return render(request, "inventory/material_by_id.html", {"material": material})

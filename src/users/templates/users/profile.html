@@ -2,9 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container mt-5">
-  <h1> Welcome, {{ user.name }} {{ user.surname }}</h1>
-  <p> Email: {{ user.email }}</p>
-  <p> You're logged in successfully! </p>
-</div>
+<h1> Welcome, {{ user.name }} {{ user.surname }}</h1>
+<p> Email: {{ user.email }}</p>
+<p> You're logged in successfully! </p>
 {% endblock %}
