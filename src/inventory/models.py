@@ -16,7 +16,7 @@ class Material(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.unit_price} {self.unit}, {self.quantity}'
 
 
 class Category(models.Model):
@@ -26,3 +26,12 @@ class Category(models.Model):
 
     def __str__(self):
         return f'{self.code} - {self.name}'
+
+
+class Item(models.Model): # example
+    name = models.CharField(max_length=255)
+    category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return self.name
