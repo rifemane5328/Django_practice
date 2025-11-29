@@ -30,7 +30,7 @@ class Category(models.Model):
 
 class Item(models.Model): # example
     name = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, related_name='items', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='categories', on_delete=models.CASCADE)
 
 
     def __str__(self):

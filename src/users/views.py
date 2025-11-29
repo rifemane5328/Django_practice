@@ -23,7 +23,7 @@ def profile_view(request):
         form = CustomUserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, message='Profile has been created successfully.')
+            messages.success(request, message='Profile has been updated successfully.')
         else:
             messages.error(request, message='Something went wrong.')
     else:

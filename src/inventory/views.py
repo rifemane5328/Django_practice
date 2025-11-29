@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
+from .filters import MaterialFilter
 from .forms import MaterialForm
 from .models import Material
 
@@ -20,6 +21,8 @@ def add_material_view(request):
 
 def get_all_materials(request):
     materials = Material.objects.all()
+    my_filter = MaterialFilter(request.GET, queryset=materials)
+    materials = my_filter.qs
     return render(request, "inventory/get_materials.html", {"materials": materials})
 
 

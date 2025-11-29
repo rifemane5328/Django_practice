@@ -11,6 +11,5 @@ def get_all_materials():
 
 
 @register.inclusion_tag('inventory/materials_list.html') # adds a block of html-file
-def show_materials():
-    materials = Material.objects.all()
+def show_materials(materials):
     return {"materials": materials}

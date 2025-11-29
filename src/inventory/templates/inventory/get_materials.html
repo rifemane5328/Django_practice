@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<form class="d-flex">
+    <input class="form-control me-2" name="name" value="{{ request.GET.name }}" type="search" placeholder="Name" aria-label="Search">
+    <input class="form-control me-2" name="price" value="{{ request.GET.price }}" type="search" placeholder="Price" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+</form>
 <h2>All materials:</h2>
+
 {% load inventory_tags %}
 
-{% show_materials %}
+{% show_materials materials %}
 
 {% endblock %}

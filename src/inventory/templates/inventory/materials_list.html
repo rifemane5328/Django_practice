@@ -1,7 +1,7 @@
 <ul>
     {% for m in materials %}
     <li>
-        <a href="{% url 'inventory:get_material_by_id' m.id %}">{{m.name}}</a>
+        <a href="{% url 'inventory:get_material_by_id' m.id %}">{{m.name}}</a><p> - {{m.unit_price}} per {{m.unit}}</p>
     </li>
     {% endfor %}
 </ul>
