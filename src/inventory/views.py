@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 from .filters import MaterialFilter
 from .forms import MaterialForm
@@ -22,8 +23,19 @@ def add_material_view(request):
 def get_all_materials(request):
     materials = Material.objects.all()
     my_filter = MaterialFilter(request.GET, queryset=materials)
-    materials = my_filter.qs
-    return render(request, "inventory/get_materials.html", {"materials": materials})
+    materials_list = my_filter.qs
+
+    paginator = Paginator(materials_list, 2)
+    page_number = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_number)
+    elided_page_range = paginator.get_elided_page_range(
+        number=page_obj.number, # current page
+        on_each_side=3,
+        on_ends=1
+    )
+
+    return render(request, "inventory/get_materials.html",
+                    {"materials": page_obj, "page_numbers": elided_page_range})
 
 
 def get_material_by_id(request, material_id):

@@ -1,1 +1,1 @@
-# The new Django project with table Material and some functional
+# The new Django project with several tables and functions like viewing and creating materials, authorizing and changing profile

@@ -11,7 +11,9 @@ dependencies = [
     "psycopg2-binary (>=2.9.11,<3.0.0)",
     "python-decouple (>=3.8,<4.0)",
     "django (>=5.2.7,<6.0.0)",
-    "crispy-bootstrap5 (>=2025.6,<2026.0)"
+    "crispy-bootstrap5 (>=2025.6,<2026.0)",
+    "django-crispy-forms (>=2.4,<3.0)",
+    "django-filter (>=25.2,<26.0)"
 ]
 
 

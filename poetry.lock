@@ -71,6 +71,24 @@ files = [
 django = ">=4.2"
 
 [[package]]
+name = "django-filter"
+version = "25.2"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "django_filter-25.2-py3-none-any.whl", hash = "sha256:9c0f8609057309bba611062fe1b720b4a873652541192d232dd28970383633e3"},
+    {file = "django_filter-25.2.tar.gz", hash = "sha256:760e984a931f4468d096f5541787efb8998c61217b73006163bf2f9523fe8f23"},
+]
+
+[package.dependencies]
+Django = ">=5.2"
+
+[package.extras]
+drf = ["djangorestframework"]
+
+[[package]]
 name = "psycopg2-binary"
 version = "2.9.11"
 description = "psycopg2 - Python-PostgreSQL Database Adapter"
@@ -179,4 +197,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13"
-content-hash = "b4d780037c013eb717d0177f26637ef617247e46331dc94fb2017a929b6353da"
+content-hash = "408c67f52daa401338d18c4fb58334d5e3da7066d310bc122028eef15692117e"
