@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+	{% csrf_token %}
+    <button class="btn btn-primary" type="submit">Download report (.xlsx)</button>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Unit of measurment</th>
+        <th scope="col">Total amount</th>
+        <th scope="col">Total expenses</th>
+        <th scope="col">Percent</th>
+        <th scope="col">Cumulative Percent</th>
+        <th scope="col">ABC Category</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in pd_data %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ item.name }}</td>
+        <td>{{ item.unit }}</td>
+        <td>{{ item.total_amount_pu }}</td>
+        <td>{{ item.total_expenses_pu }}</td>
+        <td>{{ item.percent }}</td>
+        <td>{{ item.cumulative_percent }} %</td>
+        <td>{% if item.cumulative_percent < 80 %}A{% elif item.cumulative_percent < 95 %}B{% else %}C{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

@@ -135,5 +135,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 AUTH_USER_MODEL = "users.CustomUser"
 
+LOGIN_URL = 'auth:login'
 LOGIN_REDIRECT_URL = 'auth:profile_view'
 LOGOUT_REDIRECT_URL = 'home'
+
+SESSION_COOKIE_AGE = 120
+# session does not close after closing the browser
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+# allows using cookies on top-level navigation, protects against CSRF; safe crossings
+SESSION_COOKIE_SAMESITE = "Lax"

@@ -3,7 +3,8 @@
 {% block content %}
 <h2>{{ material.name }}</h2>
 <p>Unit price: {{ material.unit_price }}</p>
-<p>Quantity: {{ material.quantity }} {{ material.unit }}</p>
+<p>Quantity: {{ material.quantity }}, each is {{ material.unit }} per one</p>
+<p>User: {{ material.user }}</p>
 
 <a href="{% url 'inventory:get_materials' %}">Back to all materials</a>
 {% endblock %}
