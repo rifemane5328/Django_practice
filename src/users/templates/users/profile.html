@@ -2,12 +2,13 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h1>You have logged in successfully!</h1>
+<h1>Вхід успішний!</h1>
 <form method="post" class="mt-3">
     {% csrf_token %}
     {{ form|crispy }}
     <div class="d-grid">
-        <button type="submit" class="btn btn-primary mt-3">Save changes</button>
+        <button type="submit" class="btn btn-primary mt-3">Зберегти зміни</button>
     </div>
 </form>
+<a class="btn btn-outline-primary mt-auto" href="{% url 'auth:password_change' %}">Змінити пароль</a>
 {% endblock %}

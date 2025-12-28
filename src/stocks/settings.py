@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,7 +86,10 @@ DATABASES = {
         "USER": config("PG_USER"),
         "PASSWORD": config("PG_PASSWORD"),
         "HOST": config("PG_HOST"),
-        "PORT": config("PG_PORT")
+        "PORT": config("PG_PORT"),
+        "OPTIONS": {
+            "client_encoding": "UTF8",
+        }
     }
 }
 
@@ -139,8 +143,12 @@ LOGIN_URL = 'auth:login'
 LOGIN_REDIRECT_URL = 'auth:profile_view'
 LOGOUT_REDIRECT_URL = 'home'
 
-SESSION_COOKIE_AGE = 120
+SESSION_COOKIE_AGE = 480
 # session does not close after closing the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # allows using cookies on top-level navigation, protects against CSRF; safe crossings
 SESSION_COOKIE_SAMESITE = "Lax"
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger'
+}

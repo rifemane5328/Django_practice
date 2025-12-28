@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h1>Create a TRANSACTION</h1>
+<h1>Створити транзакцію</h1>
 <form method="post">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Створити</button>
 </form>
 {% endblock content %}

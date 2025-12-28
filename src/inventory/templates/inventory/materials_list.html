@@ -1,7 +1,10 @@
 <ul>
     {% for m in materials %}
     <li>
-        <a href="{% url 'inventory:get_material_by_id' m.id %}">{{m.name}}</a><p> - {{m.unit_price}} per {{m.unit}}</p>
+        <a href="{% url 'inventory:get_material_by_id' m.id %}">{{m.name}}</a><p> - {{m.unit_price}} за {{m.unit}}</p>
     </li>
+    <div class="text-center">
+        <a class="btn btn-outline-primary mt-auto" href="add-basket/{{m.id}}">Додати в корзину</a>
+    </div>
     {% endfor %}
 </ul>

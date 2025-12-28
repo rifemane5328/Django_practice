@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load extras %}
+
+{% block content %}
+
+<h2>Книжки:</h2>
+<ul>
+    {% for b in books %}
+    <li>
+        <p>"{{ b.title }}" була опублікована автором {{ b.author }} в {{ b.year }} році,
+            вона містить {{ b.number_of_pages }} сторінок та оціннку: {{ b.rating|stars }} або {{b.rating}}</p>
+    </li>
+    {% endfor %}
+</ul>
+<p>{{ data }}</p>
+
+{% endblock %}

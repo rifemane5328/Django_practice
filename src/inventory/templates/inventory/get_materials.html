@@ -3,25 +3,45 @@
 {% block content %}
 
 <form class="d-flex">
+    
+    {% if paginate %}
+        <input type="hidden" name="paginate" value="on">
+    {% endif %}
+
     <input class="form-control me-2" name="name" value="{{ request.GET.name }}" type="search" placeholder="Name" aria-label="Search">
     <input class="form-control me-2" name="price_gr" value="{{ request.GET.price_gr }}" type="search" placeholder="Price from" aria-label="Search">
     <input class="form-control me-2" name="price_low" value="{{ request.GET.price_low }}" type="search" placeholder="Price to" aria-label="Search">
     <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
-<h2>All materials:</h2>
+
+<div class="text-center my-3">
+    {% if paginate %}
+        <a href="?" class="btn btn-outline-secondary">
+            Вимкнути пагінацію
+        </a>
+    {% else %}
+        <a href="?paginate=on" class="btn btn-outline-primary">
+            Увімкнути пагінацію
+        </a>
+    {% endif %}
+</div>
+
+<h2>Всі матеріали:</h2>
 
 {% load inventory_tags %}
 
 {% show_materials materials %}
 
 <!--  Pagination  -->
+{% if paginate %}
+{% with request.GET.urlencode|cut:'page=' as query_string %}
 <div class="pagination d-flex justify-content-center mt-4">
     <ul class="pagination">
 
         <!-- Previous and first -->
         {% if materials.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ materials.previous_page_number }}">Попередня</a>
+                <a class="page-link" href="?{{ query_string }}&page={{ materials.previous_page_number }}">Попередня</a>
             </li>
         {% else %}
         <li class="page-item disabled">
@@ -38,7 +58,7 @@
             </li>
         {% else %}
             <li class="page-item {% if num == materials.number %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                <a class="page-link" href="?{{ query_string }}&page={{ num }}">{{ num }}</a>
             </li>
 
         {% endif %}
@@ -47,7 +67,7 @@
         <!-- Next and last -->
         {% if materials.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ materials.next_page_number }}">
+                <a class="page-link" href="?{{ query_string }}&page={{ materials.next_page_number }}">
                     Наступна</a>
             </li>
 
@@ -58,5 +78,7 @@
         {% endif %}
     </ul>
 </div>
+{% endwith %}
+{% endif %}
 
 {% endblock %}

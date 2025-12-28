@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Ваша корзина 🛒</h2>
+
+{% if materials %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Назви матеріалів</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in materials %}
+                <tr>
+                    <td>{{ item.material.name }}</td>
+                    <td>{{ item.material.unit_price }} $</td>
+                    <td>
+                        <a href="buy-material/{{item.material.id}}" class="btn  btn-success btn-sm">
+                            Купити матеріал
+                        </a>
+                    </td>
+                    <td>
+                        <a href="delete-basket/{{item.material.id}}"
+                        class="btn btn-danger btn-sm">
+                        ❌ Видалити
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Корзина порожня</p>
+{% endif %}
+{% endblock %}

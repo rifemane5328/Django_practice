@@ -9,11 +9,13 @@
     {% csrf_token %}
     {{ form|crispy }}
 
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Увійти</button>
   </form>
 
   <p class="mt-3">
-    Don’t have an account? <a href="{% url 'auth:register' %}">Register here</a>
+    Ще не маєте акаунта? <a href="{% url 'auth:register' %}">Зареєструватися тут</a>
   </p>
+  
+  <a href="{% url 'auth:google_login' %}">Авторизація через Google</a>
 </div>
 {% endblock %}

@@ -18,32 +18,43 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0"> <!--Navigation-->
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'inventory:get_materials' %}">Materials</a>
+
+        <li class="nav-item dropdown active">
+          <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Матеріали
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'inventory:get_materials' %}">Всі матеріали</a></li>
+            <li><a class="dropdown-item" href="{% url 'inventory:add_material' %}">Створити матеріал</a></li>
+          </ul>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'inventory:add_material' %}">Add a material</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'inventory:get_books' %}">Книжки</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'inventory:material_abc_stats' %}">ABC stats</a>
+          <a class="nav-link position-relative" href="{% url 'inventory:basket_view' %}">🛒 Корзина</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'inventory:material_abc_stats' %}">ABC статистика</a>
         </li>
 
         <li class="nav-item dropdown active">
           <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Auth
+            Автентифікація
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'auth:register' %}">Sign up</a></li>
-            <li><a class="dropdown-item" href="{% url 'auth:login' %}">Log in</a></li>
+            <li><a class="dropdown-item" href="{% url 'auth:register' %}">Зареєструватся</a></li>
+            <li><a class="dropdown-item" href="{% url 'auth:login' %}">Увійти</a></li>
           </ul>
         </li>
       </ul>
       {% if request.user.is_authenticated %}
       <form method="post" action="{% url 'auth:logout' %}">
         {% csrf_token %}
-        <button type="submit" class="dropdown-item text-danger ms-3">Log out</button>
+        <button type="submit" class="dropdown-item text-danger ms-3">Вийти</button>
       </form>
       {% endif %}
     </div>
@@ -53,8 +64,7 @@
 {% if messages %}
 <div class="container mt-3">
     {% for message in messages %}
-    <div class="alert alert-{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}danger{% else %}success{% endif %} alert-dismissible fade show"
-        role="alert">
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
         {{ message }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
