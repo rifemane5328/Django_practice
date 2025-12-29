@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Sum, F
+from django.conf import settings
+from django.core.mail import send_mail
 
 from utils.abc_analisys_helper import get_abc_statistics
 from utils.transaction_helper import check_transaction
@@ -133,12 +135,25 @@ def buy_material(request, material_id):
     
     if basket.status == 'Bought':
         messages.warning(request, "Матеріал вже придбано.")
-        return redirect('inventory:basket_view')
     
-    basket.status = 'Bought'
-    basket.save()
-    
-    messages.success(request, "Матеріал успішно придбано.")
+    else: 
+        basket.status = 'Bought'
+        basket.save()
+        from_email = settings.EMAIL_HOST_USER
+        message = (f'Ваша квитанція на оплату {basket.material.name} на суму {basket.material.unit_price}.'
+                    f'Просимо надіслати на пошту {from_email}.')
+        to_email = request.user.email
+        send_mail(
+            "Квитанція на оплату",
+            message,
+            from_email,
+            [to_email],
+            fail_silently=False
+        )
+
+
+        messages.success(request, "Матеріал успішно придбано.")
+
     return redirect('inventory:basket_view')
 
 

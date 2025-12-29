@@ -13,7 +13,7 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("profile/", profile_view, name="profile_view"),
     path("login/google/", google_login, name="google_login"),
-    path("login/from-fastapi/", login_from_fastapi, name="login_from_fastapi"),
+    path("login/from_fastapi/", login_from_fastapi, name="login_from_fastapi"),
     path("password/change/", PasswordChangeView.as_view(
         template_name="users/password_change.html",
         success_url=reverse_lazy("auth:password_change_done")),

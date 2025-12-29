@@ -63,7 +63,7 @@ def login_from_fastapi(request):
         return redirect("auth:login")
     user, created = CustomUser.objects.get_or_create(
         email=email,
-        default={
+        defaults={
             "name": name,
             "password": "123",
             "is_active": True
