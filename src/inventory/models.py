@@ -46,7 +46,11 @@ class Book(models.Model):
 class Basket(models.Model):
     class StatusBin(models.TextChoices):
         Added = 'A', 'Added' # when material just added to basket
-        Bought = 'B', 'Bought'# when user confirmed an intention to buy
+        Bought = 'B', 'Bought'# when user confirmed an intention to buy material
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     status = models.CharField(choices=StatusBin.choices, default=StatusBin.Added)
+    count = models.IntegerField(default=1, validators=[MinValueValidator(0)])
+
+    class Meta:
+        unique_together = ("user", "material")

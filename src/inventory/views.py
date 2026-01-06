@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
@@ -6,12 +7,16 @@ from django.core.paginator import Paginator
 from django.db.models import Sum, F
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core.cache import cache
+from decimal import Decimal
 
 from utils.abc_analisys_helper import get_abc_statistics
 from utils.transaction_helper import check_transaction
 from .filters import MaterialFilter
 from .forms import MaterialForm, TransactionForm
 from .models import Material, Book, Basket
+
+logger = logging.getLogger(__name__)
 
 
 # Materials
@@ -98,7 +103,15 @@ def create_transaction(request):
 
 # Books
 def get_books(request):
-    books = Book.objects.all()
+    cache_key = "books_list"
+    books = cache.get(cache_key)
+    if books is None:
+        logger.warning("Дані з бази даних")
+        books = list(Book.objects.all())
+        cache.set(cache_key, books, timeout=300)
+    else:
+        logger.warning("Дані з cache")
+
     request.session['my_data'] = 'The quick brown fox jumps over the lazy dog' # records in session
     data = request.session.get('my_data', 'blank')
     return render(request, 'inventory/get_books.html', {"books": books, "data": data})
@@ -117,7 +130,15 @@ def basket_view(request):
 def create_basket(request, material_id):
     material = Material.objects.get(id=material_id)
     current_user = request.user
-    Basket.objects.create(user=current_user, material=material)
+    basket_item, created = Basket.objects.get_or_create(
+        user=current_user,
+        material=material,
+        defaults={"count": 1}
+    )
+    if not created:
+        basket_item.count +=1
+        basket_item.save()
+
     return redirect('inventory:get_materials')
 
 
@@ -127,20 +148,22 @@ def delete_basket(request, material_id):
 
 
 def buy_material(request, material_id):
-    basket = get_object_or_404(
-        Basket,
+    basket = Basket.objects.filter(
         user=request.user,
         material_id=material_id
         )
     
-    if basket.status == 'Bought':
-        messages.warning(request, "Матеріал вже придбано.")
+    if not basket.exists():
+        return redirect("inventory:basket_view")
     
     else: 
-        basket.status = 'Bought'
-        basket.save()
+        basket.update(status="Bought")
+
         from_email = settings.EMAIL_HOST_USER
-        message = (f'Ваша квитанція на оплату {basket.material.name} на суму {basket.material.unit_price}.'
+        material = basket.first().material
+        unitary_basket = Basket.objects.get(user=request.user, material_id=material_id)
+
+        message = (f'Ваша квитанція на оплату {material.name} на суму {material.unit_price * unitary_basket.count}.'
                     f'Просимо надіслати на пошту {from_email}.')
         to_email = request.user.email
         send_mail(
@@ -156,4 +179,22 @@ def buy_material(request, material_id):
 
     return redirect('inventory:basket_view')
 
+
+@login_required
+def basket_inc(request, material_id):
+    basket = Basket.objects.get(user=request.user, material_id=material_id)
+    count = basket.count + 1
+    Basket.objects.filter(user=request.user, material_id=material_id).update(count=count)
+    return redirect('inventory:basket_view')
+
+
+@login_required
+def basket_dec(request, material_id):
+    basket = Basket.objects.get(user=request.user, material_id=material_id)
+    count = basket.count - 1
+    if count > 0:
+        Basket.objects.filter(user=request.user, material_id=material_id).update(count=count)
+    else:
+        Basket.objects.filter(user=request.user, material_id=material_id).delete()
+    return redirect('inventory:basket_view')
 

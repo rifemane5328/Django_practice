@@ -16,10 +16,26 @@
                 <tr>
                     <td>{{ item.material.name }}</td>
                     <td>{{ item.material.unit_price }} $</td>
+                    <td class="text-center">
+                        {% if item.status == "A" %}
+                            <a href="dec/{{item.material.id}}" class="btn btn-sm btn-outline-secondary">−</a>
+                        {% endif %}
+
+                        <strong class="mx-2">{{ item.count }}</strong>
+                        {% if item.status == "A" %}
+                            <a href="inc/{{item.material.id}}" class="btn btn-sm btn-outline-secondary">+</a>
+                        {% endif %}
+                    </td>
                     <td>
+                        {% if item.status == "Bought" %}
+                        <span class="btn btn-secondary btn-sm disabled">
+                            Куплено
+                        </span>
+                        {% else %}
                         <a href="buy-material/{{item.material.id}}" class="btn  btn-success btn-sm">
                             Купити матеріал
                         </a>
+                        {% endif %}
                     </td>
                     <td>
                         <a href="delete-basket/{{item.material.id}}"
