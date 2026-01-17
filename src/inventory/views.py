@@ -1,4 +1,5 @@
 import logging
+from captcha.fields import CaptchaField
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ValidationError
 from django.contrib.auth.decorators import login_required
@@ -8,15 +9,14 @@ from django.db.models import Sum, F
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.cache import cache
-from decimal import Decimal
 
 from utils.abc_analisys_helper import get_abc_statistics
 from utils.transaction_helper import check_transaction
 from .filters import MaterialFilter
 from .forms import MaterialForm, TransactionForm
-from .models import Material, Book, Basket
+from .models import Material, Book, Basket, EmailLog
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("cache")
 
 
 # Materials
@@ -117,7 +117,7 @@ def get_books(request):
     return render(request, 'inventory/get_books.html', {"books": books, "data": data})
 
 
-# Busket
+# Basket
 
 
 @login_required
@@ -127,7 +127,7 @@ def basket_view(request):
 
 
 @login_required
-def create_basket(request, material_id):
+def add_to_basket(request, material_id):
     material = Material.objects.get(id=material_id)
     current_user = request.user
     basket_item, created = Basket.objects.get_or_create(
@@ -166,13 +166,15 @@ def buy_material(request, material_id):
         message = (f'Ваша квитанція на оплату {material.name} на суму {material.unit_price * unitary_basket.count}.'
                     f'Просимо надіслати на пошту {from_email}.')
         to_email = request.user.email
+        subject = "Квитанція на оплату"
         send_mail(
-            "Квитанція на оплату",
+            subject,
             message,
             from_email,
             [to_email],
             fail_silently=False
         )
+        EmailLog.objects.create(to_email=to_email, subject=subject)
 
 
         messages.success(request, "Матеріал успішно придбано.")

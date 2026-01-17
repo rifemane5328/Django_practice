@@ -24,12 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-wl7sfi5nvykid)&60ev6d_w=4!kt4uwc=v#-1d1j9jy_@ma1&1'
+SECRET_KEY = config("SECRET_KEY")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
+
+# Deploying
+# waitress-serve stocks.wsgi:application
+# ["127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -44,7 +48,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'inventory',
-    'users'
+    'users',
+    'captcha'
 ]
 
 MIDDLEWARE = [
@@ -121,7 +126,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = True # internationalization
 
 USE_TZ = True
 
@@ -130,11 +135,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField' # type of the primary key
 
 CRISPY_ALLOWED_TEMPLATE_PACK = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
@@ -157,7 +163,7 @@ MESSAGE_TAGS = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'zdanevych2011@gmail.com'
+EMAIL_HOST_USER = EMAIL_HOST_USER
 EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
@@ -170,4 +176,24 @@ CACHES = {
             "CLEINT_CLASS": "django_redis.client.DefaultClient"
         }
     }
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "handlers": {
+        "db": {
+            "level": "INFO",
+            "class": "inventory.logging_handlers.DBLogHandler",
+        },
+    },
+
+    "loggers": {
+        "cache": {
+            "handlers": ["db"],
+            "level": "INFO",
+            "propagate": False,
+        },
+    },
 }

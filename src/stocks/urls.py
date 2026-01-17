@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventory/', include('inventory.urls', namespace='inventory')),
     path("auth/", include('users.urls', namespace="auth")),
-    path('', lambda request: render(request, 'home.html'), name='home')
+    path('', lambda request: render(request, 'home.html'), name='home'),
+    path("captcha/", include("captcha.urls"))
 ]

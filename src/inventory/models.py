@@ -54,3 +54,23 @@ class Basket(models.Model):
 
     class Meta:
         unique_together = ("user", "material")
+
+
+class SystemLog(models.Model):
+    LEVELS = (
+        ("INFO", "INFO"),
+        ("WARNING", "WARNING"),
+        ("ERROR", "ERROR")
+    )
+    
+    level = models.CharField(max_length=10, choices=LEVELS)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"[{self.level}] {self.created_at:%Y-%m-%d %H:%M}"
+    
+
+class EmailLog(models.Model):
+    to_email = models.EmailField()
+    subject = models.CharField(max_length=255)

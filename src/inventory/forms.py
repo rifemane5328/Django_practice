@@ -1,7 +1,10 @@
+from captcha.fields import CaptchaField
 from django import forms
+
 from .models import Material, Transaction
 
 class MaterialForm(forms.ModelForm):
+    captcha = CaptchaField(label="Введіть код з картинки:")
     class Meta:
         model = Material
         fields = ['name', 'unit_price', 'unit', 'quantity', 'user']
