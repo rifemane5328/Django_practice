@@ -118,8 +118,6 @@ def get_books(request):
 
 
 # Basket
-
-
 @login_required
 def basket_view(request):
     materials = Basket.objects.filter(user=request.user).select_related("material") # pulls up materials with one request

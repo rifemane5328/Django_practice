@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'inventory',
     'users',
-    'captcha'
+    'captcha',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILED_DIR = [
+    BASE_DIR / "static"
+]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
@@ -156,6 +160,8 @@ SESSION_COOKIE_AGE = 480
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # allows using cookies on top-level navigation, protects against CSRF; safe crossings
 SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
 
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
@@ -196,4 +202,10 @@ LOGGING = {
             "propagate": False,
         },
     },
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly" # allows creating, updating or deleting
+    ]
 }

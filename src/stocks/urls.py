@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
+from inventory.api_views import api_ninja
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('inventory/', include('inventory.urls', namespace='inventory')),
-    path("auth/", include('users.urls', namespace="auth")),
+    path('auth/', include('users.urls', namespace='auth')),
     path('', lambda request: render(request, 'home.html'), name='home'),
-    path("captcha/", include("captcha.urls"))
+    path('captcha/', include('captcha.urls')),
+    path('api/', include('inventory.api_urls')),
+    path('api-ninja/', api_ninja.urls),
 ]
