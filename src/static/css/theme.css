@@ -1,0 +1,56 @@
+:root {
+    --bg: #ffffff;
+    --fg: #000000;
+    --nav-bg: #ffffff;
+    --nav-fg: #000000;
+    --theme-btn-bg: #0D6EFD;
+    --theme-btn-fg: #ffffff;
+}
+
+
+body[data-theme="light"] {
+    --bg: #ffffff;
+    --fg: #000000;
+    --nav-bg: #ffffff;
+    --nav-fg: #000000;
+    --theme-btn-bg: #0D6EFD;
+    --theme-btn-fg: #ffffff;
+}
+
+
+body[data-theme="dark"] {
+    --bg: #121212;
+    --fg: #eaeaea;
+    --nav-bg: #000000;
+    --nav-fg: #ffffff;
+    --theme-btn-bg: #4dabf7;
+    --theme-btn-fg: #000000;
+}
+
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+}
+
+
+.theme-nav {
+    background: var(--nav-bg);
+
+    --bs-navbar-color: var(--nav-fg);
+    --bs-navbar-hover-color: var(--nav-fg);
+    --bs-navbar-brand-color: var(--nav-fg);
+    --bs-navbar-brand-hover-color: var(--nav-fg);
+    --bs-navbar-toggler-icon-bg: var(--nav-fg);
+
+    --bs-dropdown-bg: var(--nav-bg);
+    --bs-dropdown-link-color: var(--nav-fg);
+    --bs-navbar-link-hover-color: var(--nav-fg)
+}
+
+
+.theme-btn {
+    background: var(--theme-btn-bg);
+    color: var(--theme-btn-fg);
+    transition: background 0.3s, color 0.3s;
+}

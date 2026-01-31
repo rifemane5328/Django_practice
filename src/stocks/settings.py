@@ -135,8 +135,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILED_DIR = [
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 STATIC_ROOT = BASE_DIR / "staticfiles"
@@ -155,7 +155,7 @@ LOGIN_URL = 'auth:login'
 LOGIN_REDIRECT_URL = 'auth:profile_view'
 LOGOUT_REDIRECT_URL = 'home'
 
-SESSION_COOKIE_AGE = 480
+SESSION_COOKIE_AGE = 5000
 # session does not close after closing the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # allows using cookies on top-level navigation, protects against CSRF; safe crossings

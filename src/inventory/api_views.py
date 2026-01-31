@@ -38,8 +38,6 @@ class BasketListAPI(generics.ListAPIView):
 class GoogleLoginView(APIView):
     def get(self, request):
         redirect_uri = 'http://localhost:8000/api/auth/google/callback/'
-        print(redirect_uri)
-        print(request.session.items())
         return oauth.google.authorize_redirect(request, redirect_uri)
     
 
